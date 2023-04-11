@@ -4,6 +4,7 @@ using Telegram.Bot.Polling;
 using StockPrice.Processors;
 using NLog;
 using Microsoft.Extensions.Configuration;
+using StockPrice.Internal;
 
 namespace TelegramBotExperiments
 {
@@ -25,8 +26,23 @@ namespace TelegramBotExperiments
 
                 if (message?.Text is not null)
                 {
-                    await GetStockPrice.StockPrice(botClient, message, message.Text);
-                    return;
+                    if (message?.Text == "/start" || message?.Text == "Назад ⬅")
+                    {
+                        await botClient.SendTextMessageAsync(message.Chat, $"Мои возможности!" +
+                            $"\nНапиши тикер нужной акции и узнай ее текущую цену!" +
+                            $"\nТакже можешь воспользоваться кнопкой \"Список популярных акций 💵\" или нажать сюда: /listmostpopularstock", replyMarkup: BotButtons.MainButtonOnBot());
+                        return;
+                    }
+                    else if (message?.Text == "Список популярных акций 💵" || message?.Text == "/listmostpopularstock")
+                    {
+                        await botClient.SendTextMessageAsync(message.Chat, $"Держи список популярных акций!", replyMarkup: BotButtons.MostPopularStock());
+                        return;
+                    }
+                    else
+                    {
+                        await GetStockPrice.StockPrice(botClient, message!, message!.Text);
+                        return;
+                    }
                 }
             }
         }
