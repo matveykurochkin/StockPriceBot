@@ -1,38 +1,45 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
 
-namespace StockPrice.Internal
+namespace StockPrice.Internal;
+static internal class BotButtons
 {
-    static internal class BotButtons
+    public static IReplyMarkup MainButtonOnBot()
     {
-        public static IReplyMarkup MainButtonOnBot()
+        var tgButton = new ReplyKeyboardMarkup(new[]
         {
-            var tgButton = new ReplyKeyboardMarkup(new[]
-            {
-        new[]
+    new[]
+    {
+        new KeyboardButton("Популярные акции 💵"),
+        new KeyboardButton("Курс валют 💶")
+    }
+     });
+        tgButton.ResizeKeyboard = true;
+        return tgButton;
+    }
+    public static IReplyMarkup MostPopularStock()
+    {
+        var tgButton = new ReplyKeyboardMarkup(new[]
         {
-            new KeyboardButton("Список популярных акций 💵"),
-        }
-         });
-            tgButton.ResizeKeyboard = true;
-            return tgButton;
-        }
-        public static IReplyMarkup MostPopularStock()
-        {
-            var tgButton = new ReplyKeyboardMarkup(new[]
-            {
-        new[]
-        {
-            new KeyboardButton("AAPL"),
-            new KeyboardButton("YNDX"),
-            new KeyboardButton("TSLA")
-        },
-        new[]
-        {
-            new KeyboardButton("Назад ⬅")
-        }
-         });
-            tgButton.ResizeKeyboard = true;
-            return tgButton;
-        }
+    new[]
+    {
+        new KeyboardButton("AAPL"),
+        new KeyboardButton("MSFT"),
+        new KeyboardButton("TSLA"),
+        new KeyboardButton("GOOG")
+    },
+    new[]
+    {
+        new KeyboardButton("NVDA"),
+        new KeyboardButton("META"),
+        new KeyboardButton("MA"),
+        new KeyboardButton("MCD")
+    },
+    new[]
+    {
+        new KeyboardButton("Назад ⬅")
+    }
+     });
+        tgButton.ResizeKeyboard = true;
+        return tgButton;
     }
 }
