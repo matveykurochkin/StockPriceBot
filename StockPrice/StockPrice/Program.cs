@@ -1,31 +1,33 @@
-﻿using Telegram.Bot;
-using Telegram.Bot.Polling;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using NLog;
+using NLog.Web;
 using StockPrice.Internal;
 
-namespace TelegramBotExperiments;
-class Program : IProcessing
+namespace StockPrice;
+
+class Program
 {
-    static void Main()
+    private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+    static async Task Main(string[] args)
     {
         try
         {
-            IProcessing._logger.Info($"Бот {IProcessing.telegramBot.GetMeAsync().Result.FirstName} успешно запущен!");
-            var cts = new CancellationTokenSource();
-            var cancellationToken = cts.Token;
-            var receiverOptions = new ReceiverOptions
-            {
-                AllowedUpdates = { },
-            };
-            IProcessing.telegramBot.StartReceiving(
-               ProcessingMessage.HandleUpdateAsync,
-                ProcessingMessage.HandleErrorAsync,
-                receiverOptions,
-                cancellationToken
-            );
-            Console.ReadLine();
-        }catch (Exception ex)
+            using IHost host = Host.CreateDefaultBuilder()
+                .UseNLog()
+                .ConfigureHostConfiguration(cfgBuilder => { cfgBuilder.AddJsonFile("appsettings.json"); })
+                .ConfigureServices(
+                    services => { services.AddHostedService<Run>(); })
+                .UseWindowsService(options => { options.ServiceName = ".NET StockBot"; })
+                .Build();
+
+            await host.RunAsync();
+        }
+        catch (Exception ex)
         {
-            IProcessing._logger.Error($"Error message: {ex.Message}");
+            _logger.Error(ex, "Error running app");
         }
     }
 }
