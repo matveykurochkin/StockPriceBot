@@ -11,7 +11,7 @@ static internal class GetStockPrice
     private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
     static internal async Task StockPrice(ITelegramBotClient botClient, Message message, string textMessage)
     {
-        var apiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("APIStockPrices")["APIToken"];
+        var apiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Tokens")["APIStockPricesToken"];
 
         string url = $"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={textMessage}&apikey={apiKey}";
 
