@@ -23,7 +23,8 @@ internal class ProcessingMessage
                 {
                     await botClient.SendTextMessageAsync(message.Chat, $"Мои возможности!" +
                                                                        $"\nНапиши тикер нужной акции и узнай ее текущую цену!" +
-                                                                       $"\nТакже можешь воспользоваться кнопкой \"Популярные акции 💵\" или нажать сюда: /listmostpopularstock", replyMarkup: BotButtons.MainButtonOnBot(), cancellationToken: cancellationToken);
+                                                                       $"\nТакже можешь воспользоваться кнопкой \"Популярные акции 💵\" или нажать сюда: /listmostpopularstock" +
+                                                                       $"\nМожешь узнать курс авлют нажав на кнопку \"Курс валют 💶\" или нажать сюда: /exchangerate", replyMarkup: BotButtons.MainButtonOnBot(), cancellationToken: cancellationToken);
                     return;
                 }
 
@@ -36,10 +37,12 @@ internal class ProcessingMessage
                 if (message?.Text == "Курс валют 💶" || message?.Text == "/exchangerate")
                 {
                     await GetExchangeRate.ExchangeRate(botClient, message!);
+                    return;
                 }
                 else
                 {
                     await GetStockPrice.StockPrice(botClient, message!, message!.Text);
+                    return;
                 }
             }
         }
