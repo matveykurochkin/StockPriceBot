@@ -36,6 +36,13 @@ static internal class BotButtons
     },
     new[]
     {
+        new KeyboardButton("ADBE"),
+        new KeyboardButton("STEM"),
+        new KeyboardButton("INTC"),
+        new KeyboardButton("PEP")
+    },
+    new[]
+    {
         new KeyboardButton("Назад ⬅")
     }
      });
