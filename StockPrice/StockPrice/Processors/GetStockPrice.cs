@@ -38,6 +38,5 @@ static internal class GetStockPrice
             await botClient.SendTextMessageAsync(message.Chat, $"Данная акция не найдена или исчерпан лимит запросов!");
             _logger.Info($"This stock not been found or the request limit been reached!");
         }
-        return;
     }
 }

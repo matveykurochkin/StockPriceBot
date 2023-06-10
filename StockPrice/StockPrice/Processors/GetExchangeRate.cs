@@ -50,7 +50,7 @@ internal class GetExchangeRate
                                                                    $"1 {targetCurrencies[3]} 🇬🇧 = {Math.Round(1 / rateG * rate, 2)} {targetCurrencies[0]} 🇷🇺");
             }
             else
-                await botClient.SendTextMessageAsync(message.Chat, $"Произошла ошибка. Попробуйте запросить курс валют позже!");
+                await botClient.SendTextMessageAsync(message.Chat, "Произошла ошибка");
         }
         catch (Exception ex)
         {

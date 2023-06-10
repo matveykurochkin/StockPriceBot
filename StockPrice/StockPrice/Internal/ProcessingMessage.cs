@@ -7,6 +7,7 @@ namespace StockPrice.Internal;
 
 internal class ProcessingMessage
 {
+    // ReSharper disable once InconsistentNaming
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
     public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -39,11 +40,8 @@ internal class ProcessingMessage
                     await GetExchangeRate.ExchangeRate(botClient, message!);
                     return;
                 }
-                else
-                {
-                    await GetStockPrice.StockPrice(botClient, message!, message!.Text);
-                    return;
-                }
+
+                await GetStockPrice.StockPrice(botClient, message!, message!.Text);
             }
         }
     }

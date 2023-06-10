@@ -15,6 +15,7 @@ internal class Run : IHostedService
         _cfg = cfg;
     }
 
+    // ReSharper disable once InconsistentNaming
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -29,7 +30,7 @@ internal class Run : IHostedService
             cancellationToken = cts.Token;
             var receiverOptions = new ReceiverOptions
             {
-                AllowedUpdates = { },
+                AllowedUpdates = { }
             };
             
             telegramBot.StartReceiving(
