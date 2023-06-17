@@ -20,7 +20,7 @@ internal class ProcessingMessage
 
             if (message?.Text is not null)
             {
-                if (message?.Text == "/start" || message?.Text == "Назад ⬅")
+                if (message.Text == "/start" || message?.Text == "Назад ⬅")
                 {
                     await botClient.SendTextMessageAsync(message.Chat, $"Мои возможности!" +
                                                                        $"\nНапиши тикер нужной акции и узнай ее текущую цену!" +

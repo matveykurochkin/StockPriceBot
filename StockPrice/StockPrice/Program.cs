@@ -9,9 +9,10 @@ namespace StockPrice;
 
 class Program
 {
+    // ReSharper disable once InconsistentNaming
     private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-    static async Task Main(string[] args)
+    static async Task Main()
     {
         try
         {

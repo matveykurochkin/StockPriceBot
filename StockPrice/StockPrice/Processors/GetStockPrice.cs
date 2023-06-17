@@ -6,20 +6,22 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace StockPrice.Processors;
-static internal class GetStockPrice
+
+internal static class GetStockPrice
 {
+    // ReSharper disable once InconsistentNaming
     private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-    static internal async Task StockPrice(ITelegramBotClient botClient, Message message, string textMessage)
+    internal static async Task StockPrice(ITelegramBotClient botClient, Message message, string textMessage)
     {
         var apiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Tokens")["APIStockPricesToken"];
 
         string url = $"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={textMessage}&apikey={apiKey}";
 
-        HttpClient client = new HttpClient();
+        using HttpClient client = new HttpClient();
 
         HttpResponseMessage response = await client.GetAsync(url);
         string jsonString = await response.Content.ReadAsStringAsync();
-        dynamic result = JsonConvert.DeserializeObject(jsonString);
+        dynamic result = JsonConvert.DeserializeObject(jsonString) ?? throw new ArgumentNullException("json", "Deserialized object must not be null");
 
         if (result != null && result!["Global Quote"] != null && result!["Global Quote"]["05. price"] != null)
         {
@@ -35,8 +37,8 @@ static internal class GetStockPrice
         }
         else
         {
-            await botClient.SendTextMessageAsync(message.Chat, $"Данная акция не найдена или исчерпан лимит запросов!");
-            _logger.Info($"This stock not been found or the request limit been reached!");
+            await botClient.SendTextMessageAsync(message.Chat, "Данная акция не найдена или исчерпан лимит запросов!");
+            _logger.Info("This stock not been found or the request limit been reached!");
         }
     }
 }
